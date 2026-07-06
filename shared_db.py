@@ -7,8 +7,8 @@ Falls back to local SQLite for testing.
 import os, random
 from datetime import datetime
 
-TURSO_URL   = os.environ.get("TURSO_URL", "")
-TURSO_TOKEN = os.environ.get("TURSO_TOKEN", "")
+TURSO_URL   = os.environ.get("TURSO_URL", "").strip()
+TURSO_TOKEN = os.environ.get("TURSO_TOKEN", "").strip()
 USE_TURSO   = bool(TURSO_URL and TURSO_TOKEN)
 
 if USE_TURSO:
