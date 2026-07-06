@@ -70,6 +70,57 @@ def init_db():
             ("bnb",       "🟡 BNB (BSC)",          "0x4C7894610C455d6381aCe22dce2468ccf95D2875"),
         ]:
             con.execute("INSERT OR IGNORE INTO wallets (key,label,address,active) VALUES (?,?,?,1)", row)
+    # ── Seed products if empty ────────────────────────
+    p = con.execute("SELECT COUNT(*) FROM products").fetchone()
+    if p and p[0] == 0:
+        DELIVERY = "Contact @idoiii for delivery after order."
+        _products = [
+            ("Adobe Full App",              4.00,   69),
+            ("Canva Edu 1Y",                8.00,   76),
+            ("Canva Pro 1Y",               15.00,   72),
+            ("CapCut 1M",                   3.00,   42),
+            ("Cursor Pro 1M",              10.00,   40),
+            ("Cursor Pro Plus",            25.00,    9),
+            ("ElevenLabs 1M",              10.00,   87),
+            ("ExpressVPN / NordVPN",        2.00,   71),
+            ("Figma Pro 1Y",               16.00,    3),
+            ("Gemini Pro 18M",              1.50,   82),
+            ("Grok Super 7 Days",           3.00,   52),
+            ("Grok Super 1M",               5.00,   91),
+            ("Grok Super 3 Months",        16.00,   85),
+            ("HeyGen Creator 1M",          25.00,   52),
+            ("Highsfield Ultra 1M",        40.00,   28),
+            ("Kiro Pro Max 1M",             8.00,   68),
+            ("Kling Ultra 26K Credits",    80.00,   10),
+            ("Lovable AI Pro 1M",          20.00,   93),
+            ("Microsoft Office Slot 1Y",    8.00,   10),
+            ("Suno Premium 1M",            14.00,   34),
+            ("Xbox Game Pass Ultimate 1Y", 20.00,   50),
+            ("Xbox Game Pass Ultimate 1M",  4.00,   50),
+            ("Gemini Ultra Family 1M",     40.00,   97),
+            ("ChatGPT Plus",                4.00,    7),
+            ("ChatGPT Pro",                32.00,   60),
+            ("Grok Super 1Y",              20.00,   19),
+            ("Claude Pro",                 12.00,   18),
+            ("Claude Max20 Slot",          70.00,   13),
+            ("GPT x20 Pro",               30.00,   34),
+            ("Claude Max5",                45.00,   45),
+            ("Perplexity Pro 1Y",          10.00,   18),
+            ("5 AI Combo",                 50.00,   50),
+            ("OpenArt Wonder",             55.00,   18),
+            ("OpenArt Essential",          10.00,   32),
+            ("Netflix 1Y",                 10.00,   84),
+            ("Netflix 1M",                  3.00,   26),
+            ("YouTube 3M",                  3.00,   18),
+            ("YouTube 1Y",                 12.00,   76),
+            ("Claude Method",             200.00,  100),
+            ("Gemini Ultra Method",       120.00,  100),
+        ]
+        for name, price, stock in _products:
+            con.execute(
+                "INSERT INTO products (name,price,stock,delivery_type,delivery_content,active) VALUES (?,?,?,?,?,1)",
+                (name, price, stock, "text", DELIVERY))
+
     con.commit(); con.close()
 
 # ── Users ──────────────────────────────────────────────
